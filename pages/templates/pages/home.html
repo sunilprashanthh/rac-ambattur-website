@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Rotaract Club of Ambattur{% endblock title %}
+
+{% block content %}
+    {# Hero Section - This will now be full-width relative to the viewport if main has no side padding/margin #}
+    <section class="hero-section" style="background-image: url('{% static 'images/One-Piece.jpg' %}');">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Let's join our hands to</p>
+            <h2 class="hero-title">Transform Lives Together</h2>
+            <p class="hero-description">Join the Rotaract Club of Ambattur and be part of a global movement of young leaders taking action to create lasting change.</p>
+            <a href="{% url 'pages:about' %}" class="btn-primary hero-button">Learn About Us</a>
+        </div>
+    </section>
+
+    {# Content below the hero - wrap this in content-container #}
+    <div class="content-container main-content-below-hero">
+        <h3>Welcome!</h3>
+        <p>This is the official homepage for the amazing Rotaract Club of Ambattur.</p>
+        <p>We are excited to have you here. Explore our site to learn more about our projects, events, and how you can join us.</p>
+
+        <section class="home-about-snippet">
+            <h4>A Glimpse Into Who We Are</h4>
+            <p>The Rotaract Club of Ambattur brings together young people ages 18 and older to exchange ideas with leaders in the community, develop leadership and professional skills, and have fun through service. <a href="{% url 'pages:about' %}">Read more...</a></p>
+        </section>
+    </div>
+{% endblock content %}

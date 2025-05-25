@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Rotaract Club of Ambattur{% endblock title %}
+
+{% block content %}
+    <div class="content-container">
+    <h2>Get in Touch with Us</h2>
+    <p>We'd love to hear from you! Whether you're interested in joining, collaborating on a project, or have any questions about the Rotaract Club of Ambattur, please use the form below or reach out via our other channels.</p>
+
+    <div class="contact-form-section">
+        <h3>Send Us a Message</h3>
+
+        {% if form_submitted_successfully %}
+            <div class="alert alert-success">
+                <p>Thank you for your message! We'll get back to you soon.</p>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'pages:contact' %}">
+            {% csrf_token %}
+
+            {# Make sure {{ form.as_p }} is DELETED or COMMENTED OUT #}
+            {# {{ form.as_p }} #}
+
+            {# This section should be UNCOMMENTED and complete for all fields #}
+            <div class="form-group"> {# You can add classes like 'form-group' for styling #}
+                {{ form.name.label_tag }}
+                {{ form.name }} {# This renders the input field itself #}
+                {% if form.name.errors %}
+                    <ul class="form-errors">
+                        {% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <ul class="form-errors">
+                        {% for error in form.email.errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.subject.label_tag }}
+                {{ form.subject }}
+                {% if form.subject.errors %}
+                    <ul class="form-errors">
+                        {% for error in form.subject.errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.message.label_tag }}
+                {{ form.message }}
+                {% if form.message.errors %}
+                    <ul class="form-errors">
+                        {% for error in form.message.errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 20px;">Send Message</button>
+        </form>
+    </div>
+
+    <hr style="margin: 30px 0;">
+
+    {# Keep the existing contact details grid from previous step #}
+    <div class="contact-details-grid">
+        <div class="contact-method">
+            <h3><i class="icon-email"></i> Email Us</h3>
+            <p>For general inquiries, membership, and partnerships:</p>
+            <p><a href="mailto:racambattur@gmail.com">racambattur@gmail.com</a></p>
+        </div>
+        <div class="contact-method">
+            <h3><i class="icon-social"></i> Connect on Social Media</h3>
+            <ul class="social-links">
+                <li><a href="https://www.facebook.com/racambattur" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                <li><a href="https://www.instagram.com/racambattur/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
+                <li><a href="https://x.com/racambattur" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i> X (Twitter)</a></li>
+                {% comment %} You can add other social media links here if needed, like LinkedIn {% endcomment %}
+            </ul>
+        </div>
+        <div class="contact-method">
+            <h3><i class="icon-location"></i> Meeting Information</h3>
+            <p>Our club meetings are usually held at:</p>
+            <p>[Your Meeting Venue Address]</p>
+            <p>[Day and Time of Meeting]</p>
+        </div>
+    </div>
+{% endblock content %}

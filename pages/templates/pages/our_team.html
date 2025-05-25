@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}   {# <--- THIS IS THE FIX: Loads the 'static' template tags #}
+
+{% block title %}Our Team - Rotaract Club of Ambattur{% endblock title %}
+
+{% block content %}
+    <div class="content-container">
+    <h2>Meet the Team</h2>
+    <p>The strength of the Rotaract Club of Ambattur lies in its enthusiastic and committed members and leadership team.</p>
+
+    <h3>Club Officials {{ current_year_display }} - {{ next_year_short_display }}</h3>
+
+    <div class="team-container">
+        {% if current_officials_list %}
+            {% for member in current_officials_list %}
+                <div class="team-member-card modal-trigger"
+                     tabindex="0" {# Makes it focusable for accessibility #}
+                     data-name="{{ member.name }}"
+                     data-position="{{ member.position }}"
+                     data-photo-url="{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/placeholder_avatar.png' %}{% endif %}" {# This line uses {% static %} #}
+                     data-bio="{{ member.bio|default_if_none:''|linebreaksbr }}"
+                     data-joining-year="{{ member.joining_year|default_if_none:'N/A' }}"
+                     data-ri-id="{{ member.rotaract_id|default_if_none:'N/A' }}"
+                     data-contact-number="{{ member.contact_number|default_if_none:'N/A' }}"
+                     data-blood-group="{{ member.get_blood_group_display|default_if_none:'N/A' }}">
+
+                    {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}'s photo" class="team-member-photo-small">
+                    {% else %}
+                        <div class="team-member-img-placeholder-small"><span>Photo</span></div>
+                    {% endif %}
+
+                    <h4>{{ member.name }}</h4>
+                    <p class="team-member-position-small">{{ member.position }}</p>
+                    {% if member.contact_number %}
+                        <p class="team-member-info-small"><i class="fas fa-phone-alt"></i> {{ member.contact_number }}</p>
+                    {% endif %}
+                    {% if member.blood_group and member.blood_group != 'Unknown' %} {# Only display if known and not 'Unknown' #}
+                        <p class="team-member-info-small"><i class="fas fa-tint"></i> {{ member.get_blood_group_display }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No current club officials to display for this term. Please update in the admin panel.</p>
+        {% endif %}
+    </div>
+
+    <h3 style="margin-top: 40px;">All Club Members</h3>
+    {% if all_club_members_list %}
+        <ul class="member-name-list">
+            {% for member in all_club_members_list %}
+                <li>{{ member.name }} {% if member.position != "Member" and member.official_term_start_year != current_year_display %} ({{member.position}}){% elif member.position != "Member" and not member.official_term_start_year %} ({{member.position}}) {% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No members found.</p>
+    {% endif %}
+
+    {# Modal Structure (already provided in a previous step, ensure it's here) #}
+    <div id="team-member-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="modal-close-btn">&times;</span>
+            <div class="modal-body">
+                <img id="modal-photo" src="#" alt="Profile photo" class="modal-member-photo">
+                <h3 id="modal-name">[Member Name]</h3>
+                <p id="modal-position" class="modal-member-position">[Position]</p>
+                <div id="modal-bio-scrollable">
+                    <p id="modal-bio">[Bio]</p>
+                </div>
+                <hr>
+                <h4>Additional Details:</h4>
+                <p><strong>Joined Rotaract:</strong> <span id="modal-joining-year">[Year]</span></p>
+                <p><strong>RI ID:</strong> <span id="modal-ri-id">[ID]</span></p>
+                <p><strong>Contact:</strong> <span id="modal-contact-number">[Number]</span></p>
+                <p><strong>Blood Group:</strong> <span id="modal-blood-group">[Group]</span></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

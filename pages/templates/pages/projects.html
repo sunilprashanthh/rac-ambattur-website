@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Projects - Rotaract Club of Ambattur{% endblock title %}
+
+{% block content %}
+    <div class="content-container">
+    <h2>Making a Difference: Our Club Projects</h2>
+    <p>The Rotaract Club of Ambattur is actively involved in a variety of projects aimed at creating positive change in our community and beyond.</p>
+
+    <div class="projects-container">
+        {% if all_projects_list %}
+            {% for project in all_projects_list %}
+                <div class="project-card">
+                    <h3>
+                        {{ project.title }}
+                        {% if project.is_signature_project %}
+                            <span class="signature-project-badge">(Signature)</span>
+                        {% endif %}
+                    </h3>
+                    {% if project.focus_area %}
+                        <p><strong>Focus:</strong> {{ project.focus_area }}</p>
+                    {% endif %}
+                    <p>{{ project.description_short }}</p>
+                    <p><strong>Status:</strong> {{ project.get_status_display }}</p> {# Shows the human-readable status #}
+
+                    {# Link to the dedicated detail page - we'll use get_absolute_url here #}
+                    <a href="{{ project.get_absolute_url }}" class="btn-primary" style="margin-top: auto;">View Full Details</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No projects to display at the moment. Please check back soon!</p>
+        {% endif %}
+    </div>
+
+    <p style="margin-top: 30px;">Stay tuned for updates on our ongoing and upcoming projects. We welcome collaboration and support!</p>
+{% endblock content %}

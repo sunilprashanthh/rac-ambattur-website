@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Rotaract Club of Ambattur{% endblock title %}
+
+{% block content %}
+    <div class="project-detail-container">
+        <h2>
+            {{ project.title }}
+            {% if project.is_signature_project %}
+                <span class="project-status">(Signature Project)</span>
+            {% endif %}
+        </h2>
+
+        {% if project.image %} {# Display the main/featured project image if it exists #}
+            <div class="project-detail-image-container" style="margin-bottom: 30px;">
+                <img src="{{ project.image.url }}" alt="{{ project.title }} main image" class="project-detail-image">
+            </div>
+        {% endif %}
+
+        {# --- SwiperJS Image Gallery Starts Here --- #}
+        {% if project.gallery_images.all %} {# Check if there are any gallery images #}
+            <h3>Image Gallery</h3>
+            <div class="swiper project-image-gallery">
+                <div class="swiper-wrapper">
+                    {% for p_image in project.gallery_images.all %}
+                        <div class="swiper-slide">
+                            <img src="{{ p_image.image.url }}" alt="{{ p_image.caption|default:project.title }}">
+                            {% if p_image.caption %}
+                                <div class="swiper-caption">{{ p_image.caption }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        {% endif %}
+        {# --- SwiperJS Image Gallery Ends Here --- #}
+
+        <div style="margin-top: 20px;"> <p><strong>Status:</strong> {{ project.get_status_display }}</p>
+            {% if project.focus_area %}
+                <p><strong>Focus Area:</strong> {{ project.focus_area }}</p>
+            {% endif %}
+        </div>
+        <hr>
+
+        {% if project.description_long %}
+            <div class="project-detail-section">
+                <h3>Project Details</h3>
+                <p>{{ project.description_long|linebreaksbr }}</p>
+            </div>
+        {% elif project.description_short %}
+            <div class="project-detail-section">
+                <h3>Project Summary</h3>
+                <p>{{ project.description_short|linebreaksbr }}</p>
+            </div>
+        {% endif %}
+
+        {% if project.start_date or project.beneficiary_count %} {# Group these if both exist #}
+            <div class="project-detail-section">
+                {% if project.start_date %}
+                    <h3>Timeline & Impact</h3> {# Combined heading #}
+                    <p>
+                        <strong>Start Date:</strong> {{ project.start_date|date:"F j, Y" }}
+                        {% if project.end_date %}
+                            <br><strong>End Date:</strong> {{ project.end_date|date:"F j, Y" }}
+                        {% else %}
+                            <br><em>(Ongoing)</em>
+                        {% endif %}
+                    </p>
+                {% else %}
+                    <h3>Impact</h3> {# Heading only for beneficiaries if no timeline #}
+                {% endif %}
+
+                {% if project.beneficiary_count %}
+                    <p><strong>Beneficiaries Served/Targeted:</strong> {{ project.beneficiary_count }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <a href="{% url 'pages:projects' %}" class="btn-primary" style="margin-top: 30px;">&laquo; Back to All Projects</a>
+    </div>
+{% endblock content %}

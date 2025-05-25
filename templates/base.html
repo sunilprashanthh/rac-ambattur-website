@@ -1,0 +1,57 @@
+{# templates/base.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <title>{% block title %}Rotaract Club of Ambattur{% endblock title %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<header>
+    <h1>Rotaract Club of Ambattur</h1>
+
+    <button class="hamburger-icon" id="hamburger-icon" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav id="nav-menu">
+        <a href="{% url 'pages:home' %}">Home</a>
+        <a href="{% url 'pages:about' %}">About Us</a>
+        <a href="{% url 'pages:team' %}">Our Team</a>
+        <a href="{% url 'pages:projects' %}">Projects</a>
+        <a href="{% url 'pages:contact' %}">Contact Us</a>
+        <a href="{% url 'admin:index' %}" class="btn-login">LOGIN</a>
+    </nav>
+
+    <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle light/dark theme">
+        <i class="fas fa-sun"></i> {# Default to sun icon (light mode) #}
+    </button>
+</header>
+
+<main>
+    {% block content %}
+        <p>This is default content from base.html if a child template doesn't provide any.</p>
+    {% endblock content %}
+</main>
+
+<footer>
+    <div class="footer-social-links">
+        <a href="https://www.facebook.com/racambattur" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/racambattur/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/racambattur" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+
+    </div>
+    <p>&copy; {% now "Y" %} Rotaract Club of Ambattur. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{% static 'js/main.js' %}" defer></script>
+</body>
+</html>
